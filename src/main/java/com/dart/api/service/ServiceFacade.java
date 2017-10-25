@@ -5,5 +5,7 @@ package com.dart.api.service;
  */
 public interface ServiceFacade {
 
-    ParseService getParseService();
+    ParseEntryService getParseEntryService();
+
+    ProductReviewService getProductReviewService();
 }

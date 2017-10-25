@@ -1,6 +1,7 @@
 package com.dart.service;
 
-import com.dart.api.service.ParseService;
+import com.dart.api.service.ParseEntryService;
+import com.dart.api.service.ProductReviewService;
 import com.dart.api.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,16 @@ import org.springframework.stereotype.Service;
 public class ServiceFacadeImpl implements ServiceFacade {
 
     @Autowired
-    private ParseService parseService;
+    private ParseEntryService parseEntryService;
 
-    @Override
-    public ParseService getParseService() {
-        return parseService;
+    @Autowired
+    private ProductReviewService productReviewService;
+
+    public ParseEntryService getParseEntryService() {
+        return parseEntryService;
+    }
+
+    public ProductReviewService getProductReviewService() {
+        return productReviewService;
     }
 }

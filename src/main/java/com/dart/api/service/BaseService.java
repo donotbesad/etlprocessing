@@ -1,6 +1,6 @@
 package com.dart.api.service;
 
-import com.dart.domain.Identifiable;
+import com.dart.domain.DomainObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,7 +12,7 @@ import java.util.UUID;
  * Created by dart on 20.10.17.
  */
 
-public interface BaseService<T extends Identifiable> {
+public interface BaseService<T extends DomainObject> {
 
     Iterable<T> findAll(Sort sort);
 
@@ -33,7 +33,4 @@ public interface BaseService<T extends Identifiable> {
     void delete(List<T> entities);
 
     void deleteAll();
-
-
-
 }

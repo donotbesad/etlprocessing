@@ -5,7 +5,8 @@ import com.dart.domain.ParseEntry;
 /**
  * Created by dart on 20.10.17.
  */
-public interface ParseService extends BaseService<ParseEntry> {
+public interface ParseEntryService extends BaseService<ParseEntry> {
 
-    ParseEntry parse(String productCode);
+    ParseEntry parse(int productCode);
+
 }

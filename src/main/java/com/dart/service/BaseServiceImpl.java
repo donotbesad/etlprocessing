@@ -2,13 +2,14 @@ package com.dart.service;
 
 import com.dart.api.repository.BaseRepository;
 import com.dart.api.service.BaseService;
-import com.dart.domain.Identifiable;
+import com.dart.domain.DomainObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +18,10 @@ import java.util.UUID;
  */
 
 @Transactional
-abstract class BaseServiceImpl<T extends Identifiable> implements BaseService<T> {
+abstract class BaseServiceImpl<T extends DomainObject, E extends BaseRepository<T>> implements BaseService<T> {
 
     @Autowired
-    private BaseRepository<T> repository;
+    private E repository;
 
     @Override
     public Iterable<T> findAll(Sort sort) {
@@ -39,11 +40,14 @@ abstract class BaseServiceImpl<T extends Identifiable> implements BaseService<T>
 
     @Override
     public T insert(T entity) {
+        entity.setCreatedDate(LocalDateTime.now());
+        entity.setUpdatedDate(LocalDateTime.now());
         return repository.save(entity);
     }
 
     @Override
     public T update(T entity) {
+        entity.setUpdatedDate(LocalDateTime.now());
         return repository.save(entity);
     }
 
@@ -54,7 +58,7 @@ abstract class BaseServiceImpl<T extends Identifiable> implements BaseService<T>
 
     @Override
     public void delete(UUID uuid) {
-
+        repository.delete(uuid);
     }
 
     @Override
@@ -71,4 +75,5 @@ abstract class BaseServiceImpl<T extends Identifiable> implements BaseService<T>
     public void deleteAll() {
         repository.deleteAll();
     }
+
 }
