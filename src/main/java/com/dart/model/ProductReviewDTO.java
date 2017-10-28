@@ -1,5 +1,6 @@
 package com.dart.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,15 +15,36 @@ import java.util.List;
 @Accessors(chain = true)
 public class ProductReviewDTO {
 
+    @ApiModelProperty(value = "Product review id")
     private String id;
+
+    @ApiModelProperty(value = "Id of parse operation which parsed this review")
     private String parseEntryId;
+
+    @ApiModelProperty(value = "Comment from author")
     private String comment;
+
+    @ApiModelProperty(value = "Author name")
     private String author;
+
+    @ApiModelProperty(value = "Product defects")
     private List<String> defects;
+
+    @ApiModelProperty(value = "Product benefits")
     private List<String> benefits;
+
+    @ApiModelProperty(value = "Review publication date")
     private LocalDateTime publishedDate;
+
+    @ApiModelProperty(value = "Product rating from 1 to 5")
     private int starsCount;
+
+    @ApiModelProperty(value = "Count of users why likes this review")
     private int likesCount;
+
+    @ApiModelProperty(value = "Count of users why don't like this review")
     private int dislikesCount;
+
+    @ApiModelProperty(value = "Is this product recommended")
     private boolean recommended;
 }

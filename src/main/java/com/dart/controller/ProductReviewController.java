@@ -4,6 +4,8 @@ import com.dart.api.service.ServiceFacade;
 import com.dart.model.ApiResponse;
 import com.dart.model.ProductReviewDTO;
 import com.dart.utils.ProductAdapter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +24,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(ProductReviewController.Endpoints.SELF)
-public class ProductReviewController {
+@Api(description = ApiDocumentation.PRODUCT_REVIEW_API_DESCRIPTION, value = ApiDocumentation.PRODUCT_REVIEW_API_VALUE)
+public class ProductReviewController implements BaseController {
 
     interface Endpoints {
         String SELF = "/reviews";
-        String PRODUCT_REVIEW_BY_ID = "/{uuid}";
         String PRODUCT_REVIEWS_BY_PRODUCT_CODE = "/product/{productCode}";
     }
 
@@ -35,23 +37,26 @@ public class ProductReviewController {
 
 
     @GetMapping
-    public ApiResponse getProductReviews(@PathParam(value = "page") int page,
-                                         @PathParam(value = "size") int size) {
+    @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_LIST_OPERATION, response = ProductReviewDTO.class)
+    public ApiResponse getProductReviews(@PathParam(value = PAGE) int page,
+                                         @PathParam(value = SIZE) int size) {
         List<ProductReviewDTO> result = facade.getProductReviewService().findAll(new PageRequest(page, size)).getContent().stream()
                 .map(ProductAdapter::convert)
                 .collect(Collectors.toList());
         return new ApiResponse(result);
     }
 
-    @GetMapping(Endpoints.PRODUCT_REVIEW_BY_ID)
+    @GetMapping(GET_BY_ID)
+    @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_ID_OPERATION, response = ProductReviewDTO.class)
     public ApiResponse getProductReview(@PathVariable String uuid) {
         ProductReviewDTO result = ProductAdapter.convert(facade.getProductReviewService().findOne(UUID.fromString(uuid)));
         return new ApiResponse(result);
     }
 
     @GetMapping(Endpoints.PRODUCT_REVIEWS_BY_PRODUCT_CODE)
-    public ApiResponse getProductReviewsByProductCode(@PathParam(value = "page") int page,
-                                                      @PathParam(value = "size") int size,
+    @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_LIST_BY_PRODUCT_CODE_OPERATION, response = ProductReviewDTO.class)
+    public ApiResponse getProductReviewsByProductCode(@PathParam(value = PAGE) int page,
+                                                      @PathParam(value = SIZE) int size,
                                                       @PathVariable String productCode) {
         List<ProductReviewDTO> result = facade.getProductReviewService().findReviewsByProductCode(Integer.parseInt(productCode), new PageRequest(page, size)).getContent()
                 .stream()
