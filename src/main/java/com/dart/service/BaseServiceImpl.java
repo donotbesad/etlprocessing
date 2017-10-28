@@ -76,4 +76,7 @@ abstract class BaseServiceImpl<T extends DomainObject, E extends BaseRepository<
         repository.deleteAll();
     }
 
+    public E getRepository() {
+        return repository;
+    }
 }

@@ -2,7 +2,6 @@ package com.dart.service;
 
 import com.dart.api.repository.ProductReviewRepository;
 import com.dart.api.service.ProductReviewService;
-import com.dart.api.service.ServiceFacade;
 import com.dart.domain.ParseEntry;
 import com.dart.domain.ParseStatus;
 import com.dart.domain.product.ProductReview;
@@ -12,7 +11,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,6 +45,11 @@ public class ProductReviewServiceImpl extends BaseServiceImpl<ProductReview, Pro
         String DISLIKES_COUNT = ".vote-no.js_product-review-vote.js_vote-no span";
         String STARS_COUNT = ".review-score-count";
         String PUBLISHED_DATE = ".review-time time";
+    }
+
+    @Override
+    public Page<ProductReview> findReviewsByProductCode(int productCode, Pageable pageable) {
+        return getRepository().findByParseEntryProductCode(productCode, pageable);
     }
 
     @Override

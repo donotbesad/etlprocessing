@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,16 +25,16 @@ public class ParseController {
     interface Endpoints {
         String SELF = "/parse";
         String PARSE_ENTRY_BY_ID = "/{uuid}";
-        String PARSE_PAGE = "/{from}/{to}";
         String PARSE_PRODUCT = "/product/{productCode}";
     }
 
     @Autowired
     private ServiceFacade facade;
 
-    @GetMapping(Endpoints.PARSE_PAGE)
-    public ApiResponse getParsedEntries(@PathVariable int from, @PathVariable int to) {
-        List<ParseEntryDTO> result = facade.getParseEntryService().findAll(new PageRequest(from, to)).getContent().stream()
+    @GetMapping
+    public ApiResponse getParsedEntries(@PathParam(value = "page") int page,
+                                        @PathParam(value = "size") int size) {
+        List<ParseEntryDTO> result = facade.getParseEntryService().findAll(new PageRequest(page, size)).getContent().stream()
                 .map(ParseEntryAdapter::convert)
                 .collect(Collectors.toList());
         return new ApiResponse(result);
