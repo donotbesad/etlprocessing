@@ -3,7 +3,11 @@ package com.dart.api.service;
 import com.dart.domain.ParseEntry;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:07
+ *
+ * @author Dmitry Artemenko
  */
 public interface ParseEntryService extends BaseService<ParseEntry> {
 

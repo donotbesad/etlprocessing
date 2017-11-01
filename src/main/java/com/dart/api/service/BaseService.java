@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:07
+ *
+ * @author Dmitry Artemenko
  */
 
 public interface BaseService<T extends DomainObject> {

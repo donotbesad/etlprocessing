@@ -19,7 +19,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:08
+ *
+ * @author Dmitry Artemenko
  */
 
 
@@ -30,7 +34,7 @@ public class ParseController implements BaseController {
 
     interface Endpoints {
         String SELF = "/parse";
-        String PARSE_PRODUCT = "/product/{productCode}";
+        String PARSE_PRODUCT = "/code/{productCode}";
     }
 
     @Autowired
@@ -56,7 +60,8 @@ public class ParseController implements BaseController {
     @GetMapping(Endpoints.PARSE_PRODUCT)
     @ApiOperation(value = ApiDocumentation.PARSE_API_PARSE_OPERATION, response = ParseEntryDTO.class)
     public ApiResponse parseProduct(@PathVariable int productCode) {
-        ParseEntryDTO result = ParseEntryAdapter.convert(facade.getParseEntryService().parse(productCode));
+        ParseEntryDTO result = ParseEntryAdapter.convert(facade.getParseEntryService()
+                .parse(productCode));
         return new ApiResponse(result);
     }
 

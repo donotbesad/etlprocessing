@@ -9,7 +9,11 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:07
+ *
+ * @author Dmitry Artemenko
  */
 
 @Configuration

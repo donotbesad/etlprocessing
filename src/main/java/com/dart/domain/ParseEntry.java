@@ -7,7 +7,11 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:08
+ *
+ * @author Dmitry Artemenko
  */
 
 @Data

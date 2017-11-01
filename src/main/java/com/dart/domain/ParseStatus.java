@@ -1,7 +1,11 @@
 package com.dart.domain;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:09
+ *
+ * @author Dmitry Artemenko
  */
 public enum ParseStatus {
 
@@ -9,6 +13,7 @@ public enum ParseStatus {
     PARSING("Parsing"),
     NOT_FOUND("Not found"),
     FAILED("Failed");
+
 
     private String label;
 

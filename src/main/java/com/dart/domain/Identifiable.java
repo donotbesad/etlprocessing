@@ -9,7 +9,11 @@ import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 /**
- * Created by dart on 20.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 20.10.17
+ * Time: 14:08
+ *
+ * @author Dmitry Artemenko
  */
 
 @Data

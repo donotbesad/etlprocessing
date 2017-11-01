@@ -15,4 +15,5 @@ public interface BaseController {
     String LEFT_BRACE = "{";
     String RIGHT_BRACE = "}";
     String GET_BY_ID = LEFT_BRACE + ID + RIGHT_BRACE;
+    String SLASH = "/";
 }

@@ -1,16 +1,23 @@
 package com.dart.utils;
 
+import com.dart.domain.product.Product;
 import com.dart.domain.product.ProductReview;
+import com.dart.model.ProductDTO;
 import com.dart.model.ProductReviewDTO;
 
 /**
- * Created by dart on 26.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 26.10.17
+ * Time: 14:10
+ *
+ * @author Dmitry Artemenko
  */
 public class ProductAdapter {
 
     public static ProductReviewDTO convert(ProductReview domain) {
-        ProductReviewDTO dto = new ProductReviewDTO();
+        ProductReviewDTO dto = null;
         if (domain != null) {
+            dto = new ProductReviewDTO();
             dto.setId(domain.getUuid().toString());
             dto.setAuthor(domain.getAuthor());
             dto.setBenefits(domain.getBenefits());
@@ -25,4 +32,17 @@ public class ProductAdapter {
         }
         return dto;
     }
+
+    public static ProductDTO convert(Product domain) {
+        ProductDTO dto = null;
+        if (domain != null) {
+            dto = new ProductDTO();
+            dto.setId(domain.getUuid().toString());
+            dto.setModel(domain.getModel());
+            dto.setBrand(domain.getBrand());
+            dto.setType(domain.getType());
+        }
+        return dto;
+    }
+
 }

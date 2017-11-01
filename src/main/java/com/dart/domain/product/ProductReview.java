@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by dart on 23.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 23.10.17
+ * Time: 14:08
+ *
+ * @author Dmitry Artemenko
  */
 
 @Data

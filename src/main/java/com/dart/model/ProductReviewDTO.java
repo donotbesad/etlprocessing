@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by dart on 26.10.17.
+ * Author: Dmitry Artemenko
+ * Date: 26.10.17
+ * Time: 14:09
+ *
+ * @author Dmitry Artemenko
  */
 
 @Data
