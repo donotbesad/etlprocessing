@@ -19,11 +19,29 @@ import java.util.List;
 @Accessors(chain = true)
 public class ProductReviewDTO {
 
+    public interface Fields {
+        String ID = "id";
+        String PARSE_ENTRY_ID = "parseEntryId";
+        String PRODUCT_CODE = "productCode";
+        String COMMENT = "comment";
+        String AUTHOR = "author";
+        String DEFECTS = "defects";
+        String BENEFITS = "benefits";
+        String PUBLISHED_DATE = "publishedDate";
+        String STARS_COUNT = "starsCount";
+        String LIKES_COUNT = "likesCount";
+        String DISLIKES_COUNT = "dislikesCount";
+        String RECOMMENDED = "recommended";
+    }
+
     @ApiModelProperty(value = "Product review id")
     private String id;
 
     @ApiModelProperty(value = "Id of parse operation which parsed this review")
     private String parseEntryId;
+
+    @ApiModelProperty(value = "Product code")
+    private String productCode;
 
     @ApiModelProperty(value = "Comment from author")
     private String comment;

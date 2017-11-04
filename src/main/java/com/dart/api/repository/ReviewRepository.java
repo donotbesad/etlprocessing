@@ -4,6 +4,7 @@ import com.dart.domain.product.ProductReview;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -14,6 +15,10 @@ import java.util.UUID;
  * @author Dmitry Artemenko
  */
 public interface ReviewRepository extends BaseRepository<ProductReview> {
+
+    List<ProductReview> findByParseEntryProductCode(int productCode);
+
+    List<ProductReview> findByParseEntryUuid(UUID uuid);
 
     Page<ProductReview> findByParseEntryProductCode(int productCode, Pageable pageable);
 

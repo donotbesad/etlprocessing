@@ -14,4 +14,6 @@ public interface ServiceFacade {
     ReviewService getReviewService();
 
     ProductService getProductService();
+
+    ExportService getExportService();
 }

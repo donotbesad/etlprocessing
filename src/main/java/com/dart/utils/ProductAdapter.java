@@ -29,6 +29,7 @@ public class ProductAdapter {
             dto.setStarsCount(domain.getStarsCount());
             dto.setLikesCount(domain.getLikesCount());
             dto.setDislikesCount(domain.getDislikesCount());
+            dto.setProductCode(Integer.toString(domain.getParseEntry().getProductCode()));
         }
         return dto;
     }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,16 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         String DISLIKES_COUNT = ".vote-no.js_product-review-vote.js_vote-no span";
         String STARS_COUNT = ".review-score-count";
         String PUBLISHED_DATE = ".review-time time";
+    }
+
+    @Override
+    public List<ProductReview> findReviewsByProductCode(int productCode) {
+        return getRepository().findByParseEntryProductCode(productCode);
+    }
+
+    @Override
+    public List<ProductReview> findReviewsByParseEntry(UUID uuid) {
+        return getRepository().findByParseEntryUuid(uuid);
     }
 
     @Override
