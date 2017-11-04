@@ -41,7 +41,7 @@ public class ParseEntryServiceImpl extends BaseServiceImpl<ParseEntry, ParseEntr
         Document mainPage = ProductParseUtil.retrieveProductPage(productCode);
         if (mainPage == null) {
             toParse.setStatus(ParseStatus.NOT_FOUND);
-            return toParse;
+            return insert(toParse);
         }
 
         List<Document> reviewPages = ProductParseUtil.retrieveProductReviewPages(productCode);

@@ -1,6 +1,7 @@
 package com.dart.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  * @author Dmitry Artemenko
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @MappedSuperclass
 public class DomainObject extends Identifiable {

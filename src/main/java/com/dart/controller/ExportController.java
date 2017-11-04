@@ -3,6 +3,8 @@ package com.dart.controller;
 import com.dart.api.service.ServiceFacade;
 import com.dart.model.ProductReviewDTO;
 import com.dart.utils.ProductAdapter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(ExportController.Names.SELF)
+@Api(description = ApiDocumentation.EXPORT_API_DESCRIPTION, value = ApiDocumentation.EXPORT_API_VALUE)
 public class ExportController {
 
     interface Names {
@@ -49,6 +52,7 @@ public class ExportController {
     private ServiceFacade facade;
 
     @GetMapping(value = Names.REVIEWS, params = {Names.PRODUCT_CODE_PARAM})
+    @ApiOperation(value = ApiDocumentation.EXPORT_API_REVIEWS_BY_PRODUCT_CODE_OPERATION)
     public void exportReviewsByProductCode(@RequestParam int productCode, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
@@ -63,6 +67,7 @@ public class ExportController {
     }
 
     @GetMapping(value = Names.REVIEWS, params = {Names.PARSE_ENTRY_ID_PARAM})
+    @ApiOperation(value = ApiDocumentation.EXPORT_API_REVIEWS_BY_PARSE_ENTRY_OPERATION)
     public void exportReviewsParseEntry(@RequestParam String parseEntryId, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
@@ -77,6 +82,7 @@ public class ExportController {
     }
 
     @GetMapping(Names.REVIEW_BY_ID)
+    @ApiOperation(value = ApiDocumentation.EXPORT_API_REVIEW_BY_ID_OPERATION)
     public void exportReview(@PathVariable String uuid, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEW_CSV);
@@ -88,8 +94,8 @@ public class ExportController {
     }
 
     private void prepareCsvResponse(HttpServletResponse response, String fileName) {
-        response.setContentType("text/csv; charset=utf-8");
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        response.setContentType(ExportController.Names.CSV_RESPONSE_CONTENT_TYPE);
+        response.setHeader(Names.CSV_RESPONSE_CONTENT_DISPOSITION, Names.CSV_RESPONSE_FILE_PREFIX + fileName);
     }
 
 

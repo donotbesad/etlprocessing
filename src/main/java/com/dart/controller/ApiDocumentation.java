@@ -9,6 +9,10 @@ package com.dart.controller;
  */
 public interface ApiDocumentation {
 
+    String MAIN_API_DESCRIPTION = "empty path endpoint";
+    String MAIN_API_VALUE = "Endpoint for empty path - ('/')";
+    String MAIN_API_EMPTY_PATH_OPERATION = "Redirect to Api Documentation";
+
     String PARSE_API_DESCRIPTION = "parsing endpoint";
     String PARSE_API_VALUE = "Endpoint for product parsing and retrieving parse operations";
     String PARSE_API_LIST_OPERATION = "Get list of parsed operations";
@@ -27,4 +31,10 @@ public interface ApiDocumentation {
     String PRODUCT_API_LIST_OPERATION = "Get list of all products";
     String PRODUCT_API_BY_PRODUCT_CODE_OPERATION = "Get product by product code";
     String PRODUCT_API_BY_PRODUCT_ID = "Get product by product id";
+
+    String EXPORT_API_DESCRIPTION = "export endpoint";
+    String EXPORT_API_VALUE = "Endpoint for export";
+    String EXPORT_API_REVIEWS_BY_PRODUCT_CODE_OPERATION = "Export all product reviews by product code";
+    String EXPORT_API_REVIEWS_BY_PARSE_ENTRY_OPERATION = "Export all product reviews by parse entry id";
+    String EXPORT_API_REVIEW_BY_ID_OPERATION = "Export product review by id";
 }

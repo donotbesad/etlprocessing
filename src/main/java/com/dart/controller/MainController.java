@@ -1,5 +1,7 @@
 package com.dart.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,6 +17,7 @@ import java.io.IOException;
  */
 
 @Controller
+@Api(description = ApiDocumentation.MAIN_API_DESCRIPTION, value = ApiDocumentation.MAIN_API_VALUE)
 public class MainController {
 
     interface Names {
@@ -23,6 +26,7 @@ public class MainController {
     }
 
     @GetMapping(Names.EMPTY_PATH)
+    @ApiOperation(value = ApiDocumentation.MAIN_API_EMPTY_PATH_OPERATION)
     public void redirectToApiDocumentation(HttpServletResponse response) throws IOException {
         response.sendRedirect(Names.SWAGGER_PATH);
     }
