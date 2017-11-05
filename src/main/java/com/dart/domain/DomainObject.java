@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class DomainObject extends Identifiable {
 
-    interface Columns {
+    public interface Columns {
         String CREATED_DATE = "createdDate";
         String UPDATED_DATE = "updatedDate";
     }

@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -51,13 +52,13 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
     }
 
     @Override
-    public List<ProductReview> findReviewsByProductCode(int productCode) {
-        return getRepository().findByParseEntryProductCode(productCode);
+    public List<ProductReview> findReviewsByProductCode(int productCode, Sort sort) {
+        return getRepository().findByParseEntryProductCode(productCode, sort);
     }
 
     @Override
-    public List<ProductReview> findReviewsByParseEntry(UUID uuid) {
-        return getRepository().findByParseEntryUuid(uuid);
+    public List<ProductReview> findReviewsByParseEntry(UUID uuid, Sort sort) {
+        return getRepository().findByParseEntryUuid(uuid, sort);
     }
 
     @Override

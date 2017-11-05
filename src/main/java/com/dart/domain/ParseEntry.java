@@ -21,7 +21,7 @@ import javax.persistence.*;
 @Table(name = "parse_entry")
 public class ParseEntry extends DomainObject {
 
-    interface Columns {
+    public interface Columns {
         String PRODUCT_CODE = "product_code";
         String PARSED_COUNT = "parsed_count";
         String STATUS = "status";

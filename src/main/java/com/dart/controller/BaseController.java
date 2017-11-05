@@ -11,6 +11,8 @@ public interface BaseController {
 
     String PAGE = "page";
     String SIZE = "size";
+    String DIRECTION = "direction";
+    String PROPERTY = "property";
     String ID = "uuid";
     String LEFT_BRACE = "{";
     String RIGHT_BRACE = "}";

@@ -23,7 +23,7 @@ import javax.persistence.*;
 @Table(name = "product")
 public class Product extends DomainObject {
 
-    interface Columns {
+    public interface Columns {
         String PARSE_ENTRY_UUID = "parse_entry_uuid";
         String TYPE = "type";
         String BRAND = "brand";

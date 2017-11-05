@@ -26,7 +26,7 @@ import java.util.List;
 @Table(name = "product_review")
 public class ProductReview extends DomainObject {
 
-    interface Columns {
+    public interface Columns {
         String PARSED_ENTRY_ID = "parsed_entry_uuid";
         String COMMENT = "comment";
         String DEFECTS = "defects";

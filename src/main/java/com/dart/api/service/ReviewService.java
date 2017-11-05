@@ -3,6 +3,7 @@ package com.dart.api.service;
 import com.dart.domain.product.ProductReview;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +17,9 @@ import java.util.UUID;
  */
 public interface ReviewService extends BaseService<ProductReview>, ParseService {
 
-    List<ProductReview> findReviewsByProductCode(int productCode);
+    List<ProductReview> findReviewsByProductCode(int productCode, Sort sort);
 
-    List<ProductReview> findReviewsByParseEntry(UUID uuid);
+    List<ProductReview> findReviewsByParseEntry(UUID uuid, Sort sort);
 
     Page<ProductReview> findReviewsByProductCode(int productCode, Pageable pageable);
 

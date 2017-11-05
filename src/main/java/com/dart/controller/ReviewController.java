@@ -4,13 +4,16 @@ import com.dart.api.service.ServiceFacade;
 import com.dart.model.ApiResponse;
 import com.dart.model.ProductReviewDTO;
 import com.dart.utils.ProductAdapter;
+import com.dart.utils.RestControllerUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,17 +39,6 @@ public class ReviewController implements BaseController {
     @Autowired
     private ServiceFacade facade;
 
-
-    @GetMapping(params = {PAGE, SIZE})
-    @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_LIST_OPERATION, response = ProductReviewDTO.class)
-    public ApiResponse getProductReviews(@RequestParam int page,
-                                         @RequestParam int size) {
-        List<ProductReviewDTO> result = facade.getReviewService().findAll(new PageRequest(page, size)).getContent().stream()
-                .map(ProductAdapter::convert)
-                .collect(Collectors.toList());
-        return new ApiResponse(result);
-    }
-
     @GetMapping(GET_BY_ID)
     @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_ID_OPERATION, response = ProductReviewDTO.class)
     public ApiResponse getProductReview(@PathVariable String uuid) {
@@ -56,10 +48,15 @@ public class ReviewController implements BaseController {
 
     @GetMapping(params = {PAGE, SIZE, Endpoints.PRODUCT_CODE})
     @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_LIST_BY_PRODUCT_CODE_OPERATION, response = ProductReviewDTO.class)
-    public ApiResponse getProductReviewsByProductCode(@RequestParam int page,
+    public ApiResponse getProductReviewsByProductCode(@RequestParam(required = false) String direction,
+                                                      @RequestParam(required = false) String property,
+                                                      @RequestParam int page,
                                                       @RequestParam int size,
                                                       @RequestParam int productCode) {
-        List<ProductReviewDTO> result = facade.getReviewService().findReviewsByProductCode(productCode, new PageRequest(page, size)).getContent()
+        Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE));
+        PageRequest pageRequest = new PageRequest(page, size, sort);
+        List<ProductReviewDTO> result = facade.getReviewService().findReviewsByProductCode(productCode, pageRequest).getContent()
                 .stream()
                 .map(ProductAdapter::convert)
                 .collect(Collectors.toList());
@@ -68,10 +65,15 @@ public class ReviewController implements BaseController {
 
     @GetMapping(params = {PAGE, SIZE, Endpoints.PARSE_ENTRY_ID})
     @ApiOperation(value = ApiDocumentation.PRODUCT_REVIEW_API_LIST_BY_PARSE_ENTRY_ID, response = ProductReviewDTO.class)
-    public ApiResponse getProductReviewsByParseEntry(@RequestParam int page,
+    public ApiResponse getProductReviewsByParseEntry(@RequestParam(required = false) String direction,
+                                                     @RequestParam(required = false) String property,
+                                                     @RequestParam int page,
                                                      @RequestParam int size,
                                                      @RequestParam String parseEntryId) {
-        List<ProductReviewDTO> result = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId), new PageRequest(page, size)).getContent()
+        Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE));
+        PageRequest pageRequest = new PageRequest(page, size, sort);
+        List<ProductReviewDTO> result = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId), pageRequest).getContent()
                 .stream()
                 .map(ProductAdapter::convert)
                 .collect(Collectors.toList());

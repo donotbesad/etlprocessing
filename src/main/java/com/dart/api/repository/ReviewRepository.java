@@ -3,6 +3,7 @@ package com.dart.api.repository;
 import com.dart.domain.product.ProductReview;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +17,9 @@ import java.util.UUID;
  */
 public interface ReviewRepository extends BaseRepository<ProductReview> {
 
-    List<ProductReview> findByParseEntryProductCode(int productCode);
+    List<ProductReview> findByParseEntryProductCode(int productCode, Sort sort);
 
-    List<ProductReview> findByParseEntryUuid(UUID uuid);
+    List<ProductReview> findByParseEntryUuid(UUID uuid, Sort sort);
 
     Page<ProductReview> findByParseEntryProductCode(int productCode, Pageable pageable);
 

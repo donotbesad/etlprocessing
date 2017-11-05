@@ -1,16 +1,20 @@
 package com.dart.controller;
 
 import com.dart.api.service.ServiceFacade;
+import com.dart.domain.DomainObject;
 import com.dart.model.ApiResponse;
 import com.dart.model.ProductDTO;
 import com.dart.utils.ProductAdapter;
+import com.dart.utils.RestControllerUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,9 +41,14 @@ public class ProductController implements BaseController {
 
     @GetMapping(params = {PAGE, SIZE})
     @ApiOperation(value = ApiDocumentation.PRODUCT_API_LIST_OPERATION, response = ProductDTO.class)
-    public ApiResponse getProducts(@RequestParam int page,
+    public ApiResponse getProducts(@RequestParam(required = false) String direction,
+                                   @RequestParam(required = false) String property,
+                                   @RequestParam int page,
                                    @RequestParam int size) {
-        List<ProductDTO> result = facade.getProductService().findAll(new PageRequest(page, size)).getContent()
+        Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, DomainObject.Columns.CREATED_DATE));
+        PageRequest pageRequest = new PageRequest(page, size, sort);
+        List<ProductDTO> result = facade.getProductService().findAll(pageRequest).getContent()
                 .stream()
                 .map(ProductAdapter::convert)
                 .collect(Collectors.toList());

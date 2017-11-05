@@ -42,6 +42,7 @@ public class ProductAdapter {
             dto.setModel(domain.getModel());
             dto.setBrand(domain.getBrand());
             dto.setType(domain.getType());
+            dto.setCode(domain.getParseEntry().getProductCode());
         }
         return dto;
     }

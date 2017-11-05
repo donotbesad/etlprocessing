@@ -18,6 +18,14 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class ParseEntryDTO {
 
+    public interface Fields {
+        String ID = "id";
+        String STATUS = "status";
+        String CREATED_DATE = "createdDate";
+        String PRODUCT_CODE = "productCode";
+        String PARSED_COUNT = "parsedCount";
+    }
+
     @ApiModelProperty(notes = "Parse operation id")
     private String id;
 

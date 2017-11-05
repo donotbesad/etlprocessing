@@ -20,7 +20,7 @@ import java.util.UUID;
 @MappedSuperclass
 public class Identifiable {
 
-    interface Fields {
+    public interface Columns {
         String UUID = "uuid";
         String STRATEGY_CLASS = "org.hibernate.id.UUIDGenerator";
     }
@@ -28,8 +28,8 @@ public class Identifiable {
     @Id
     @GeneratedValue
     @GenericGenerator(
-            name = Fields.UUID,
-            strategy = Fields.STRATEGY_CLASS
+            name = Columns.UUID,
+            strategy = Columns.STRATEGY_CLASS
     )
     private UUID uuid;
 }

@@ -16,6 +16,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ProductDTO {
 
+    public interface Fields {
+        String ID = "id";
+        String TYPE = "type";
+        String BRAND = "brand";
+        String MODEL = "model";
+        String CODE = "code";
+    }
+
     @ApiModelProperty(notes = "Product id")
     private String id;
 
@@ -27,4 +35,7 @@ public class ProductDTO {
 
     @ApiModelProperty(notes = "Product model")
     private String model;
+
+    @ApiModelProperty(notes = "Product code")
+    private int code;
 }

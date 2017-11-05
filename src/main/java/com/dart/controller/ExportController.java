@@ -6,6 +6,7 @@ import com.dart.utils.ProductAdapter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +57,8 @@ public class ExportController {
     public void exportReviewsByProductCode(@RequestParam int productCode, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
-            List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByProductCode(productCode)
+            Sort sort = new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE);
+            List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByProductCode(productCode, sort)
                     .stream()
                     .map(ProductAdapter::convert)
                     .collect(Collectors.toList());
@@ -71,7 +73,8 @@ public class ExportController {
     public void exportReviewsParseEntry(@RequestParam String parseEntryId, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
-            List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId))
+            Sort sort = new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE);
+            List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId), sort)
                     .stream()
                     .map(ProductAdapter::convert)
                     .collect(Collectors.toList());
