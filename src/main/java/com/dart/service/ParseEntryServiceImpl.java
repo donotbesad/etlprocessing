@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Dmitry Artemenko
@@ -44,12 +44,17 @@ public class ParseEntryServiceImpl extends BaseServiceImpl<ParseEntry, ParseEntr
             return insert(toParse);
         }
 
-        List<Document> reviewPages = ProductParseUtil.retrieveProductReviewPages(productCode);
-        reviewPages.add(mainPage);
+        int pageNumber = 2;
 
         try {
-            for (Document reviewPage : reviewPages) {
-                facade.getReviewService().extract(toParse, existing, reviewPage);
+            facade.getReviewService().extract(toParse, existing, mainPage);
+            while (true) {
+                Map<Integer, Document> page = ProductParseUtil.retrieveProductReviewPages(productCode, pageNumber);
+                if (page.isEmpty()) {
+                    break;
+                }
+                facade.getReviewService().extract(toParse, existing, page.get(pageNumber));
+                pageNumber++;
             }
             facade.getProductService().extract(toParse, existing, mainPage);
             toParse.setStatus(ParseStatus.PARSED);

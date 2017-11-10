@@ -6,6 +6,7 @@ import com.dart.domain.ParseEntry;
 import com.dart.domain.product.ProductReview;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -51,6 +52,8 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         String PUBLISHED_DATE = ".review-time time";
     }
 
+    private static final Logger log = Logger.getLogger(ReviewServiceImpl.class.getName());
+
     @Override
     public List<ProductReview> findReviewsByProductCode(int productCode, Sort sort) {
         return getRepository().findByParseEntryProductCode(productCode, sort);
@@ -91,7 +94,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
                 setComment(element, review);
                 setBenefits(element, review);
                 setDefects(element, review);
-                setReviewer(element, review);
+                setAuthor(element, review);
                 setRecommended(element, review);
                 setLikes(element, review);
                 setStarsCount(element, review);
@@ -113,7 +116,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
                         .collect(Collectors.toList())));
             }
         } catch (Exception ignored) {
-            System.err.println("Failed parse review benefits for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review benefits for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -126,7 +129,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
                         .collect(Collectors.toList())));
             }
         } catch (Exception ignored) {
-            System.err.println("Failed parse review defects for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review defects for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -134,11 +137,11 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         try {
             review.setComment(element.select(ReviewServiceImpl.Names.COMMENT).text());
         } catch (Exception ignored) {
-            System.err.println("Failed parse review comment for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review comment for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
-    private void setReviewer(Element element, ProductReview review) {
+    private void setAuthor(Element element, ProductReview review) {
         try {
             String reviewer = element.select(ReviewServiceImpl.Names.REVIEWER).text();
             if (StringUtils.isEmpty(reviewer)) {
@@ -146,7 +149,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
             }
             review.setAuthor(reviewer);
         } catch (Exception ignored) {
-            System.err.println("Failed parse review author for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review author for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -154,7 +157,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         try {
             review.setRecommended(element.select(ReviewServiceImpl.Names.RECOMMENDED).text().equalsIgnoreCase(ReviewServiceImpl.Names.IS_RECOMMENDED));
         } catch (Exception ignored) {
-            System.err.println("Failed parse review recommendation for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review recommendation for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -163,7 +166,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
             review.setLikesCount(Integer.parseInt(element.select(ReviewServiceImpl.Names.LIKES_COUNT).text()));
             review.setDislikesCount(Integer.parseInt(element.select(ReviewServiceImpl.Names.DISLIKES_COUNT).text()));
         } catch (Exception ignored) {
-            System.err.println("Failed parse review likes for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review likes for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -171,7 +174,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         try {
             review.setStarsCount(Character.getNumericValue(element.select(ReviewServiceImpl.Names.STARS_COUNT).text().charAt(0)));
         } catch (Exception ignored) {
-            System.err.println("Failed parse review author for product: " + review.getParseEntry().getProductCode());
+            log.warn("Failed parse review author for product: " + review.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -182,8 +185,8 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
             if (StringUtils.isNotEmpty(rawPublishedDate)) {
                 publishedDate = LocalDateTime.parse(rawPublishedDate.replace(" ", "T"));
             }
-        } catch (Exception e) {
-            System.err.println("Failed parse review publication date for product: " + toParse.getProductCode());
+        } catch (Exception ignored) {
+            log.warn("Failed parse review publication date for product: " + toParse.getProductCode(), ignored);
         }
         return publishedDate;
     }

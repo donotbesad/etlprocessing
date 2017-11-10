@@ -5,6 +5,7 @@ import com.dart.api.service.ProductService;
 import com.dart.domain.ParseEntry;
 import com.dart.domain.product.Product;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -30,6 +31,8 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductReposito
         String STRONG = "strong";
         String SPAN = "span";
     }
+
+    private static final Logger log = Logger.getLogger(ProductServiceImpl.class.getName());
 
     @Override
     public Product findByProductCode(int productCode) {
@@ -64,7 +67,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductReposito
                 product.setBrand(brand);
             }
         } catch (Exception ignored) {
-            System.err.println("Failed parse brand for product: " + product.getParseEntry().getProductCode());
+            log.warn("Failed parse brand for product: " + product.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -78,7 +81,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductReposito
                 }
             }
         } catch (Exception ignored) {
-            System.err.println("Failed parse model for product: " + product.getParseEntry().getProductCode());
+            log.warn("Failed parse model for product: " + product.getParseEntry().getProductCode(), ignored);
         }
     }
 
@@ -89,7 +92,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductReposito
                 product.setType(productType.text());
             }
         } catch (Exception ignored) {
-            System.err.println("Failed parse type for product: " + product.getParseEntry().getProductCode());
+            log.warn("Failed parse type for product: " + product.getParseEntry().getProductCode(), ignored);
         }
     }
 }
