@@ -10,6 +10,9 @@ package com.dart.domain;
 public enum ParseStatus {
 
     PARSED("Parsed"),
+    EXTRACT("Extract"),
+    TRANSFORM("Transform"),
+    LOAD("Load"),
     PARSING("Parsing"),
     NOT_FOUND("Not found"),
     FAILED("Failed");

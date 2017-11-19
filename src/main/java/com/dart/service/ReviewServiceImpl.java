@@ -2,7 +2,9 @@ package com.dart.service;
 
 import com.dart.api.repository.ReviewRepository;
 import com.dart.api.service.ReviewService;
+import com.dart.api.service.ServiceFacade;
 import com.dart.domain.ParseEntry;
+import com.dart.domain.ParseStatus;
 import com.dart.domain.product.ProductReview;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -54,6 +57,9 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
 
     private static final Logger log = Logger.getLogger(ReviewServiceImpl.class.getName());
 
+    @Autowired
+    private ServiceFacade facade;
+
     @Override
     public List<ProductReview> findReviewsByProductCode(int productCode, Sort sort) {
         return getRepository().findByParseEntryProductCode(productCode, sort);
@@ -77,6 +83,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
     @Override
     public void extract(ParseEntry toParse, ParseEntry existing, Document document) throws Exception {
         Elements elements = document.select(ReviewServiceImpl.Names.REVIEW_BOX);
+        facade.getParseEntryService().update(toParse.setStatus(ParseStatus.TRANSFORM));
         transform(toParse, existing, elements);
     }
 
@@ -105,6 +112,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
         }
 
         toParse.setParsedCount(toParse.getParsedCount() + parsedElementsCount);
+        facade.getParseEntryService().update(toParse.setStatus(ParseStatus.LOAD));
     }
 
     private void setBenefits(Element element, ProductReview review) {

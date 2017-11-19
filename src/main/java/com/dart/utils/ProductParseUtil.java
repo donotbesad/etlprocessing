@@ -5,9 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Dmitry Artemenko
@@ -34,25 +33,31 @@ public class ProductParseUtil {
         return document;
     }
 
-    public static Map<Integer, Document> retrieveProductReviewPages(int productCode, int pageNumber) {
-        Map<Integer, Document> page = new HashMap<>();
+    public static List<Document> retrieveProductReviewPages(int productCode) {
+        List<Document> result = new ArrayList<>();
+        int pageNumber = 2;
+        boolean pagesAvailable = true;
 
-        StringBuilder url = new StringBuilder(CENEO_URL)
-                .append(productCode)
-                .append("/opinie-")
-                .append(pageNumber);
+        while (pagesAvailable) {
+            StringBuilder url = new StringBuilder(CENEO_URL)
+                    .append(productCode)
+                    .append("/opinie-")
+                    .append(pageNumber);
 
-        Document document;
-        try {
-            document = Jsoup.connect(url.toString()).get();
-            if (document.location().contains("/opinie-")) {
-                page.put(pageNumber, document);
+            Document document;
+            try {
+                document = Jsoup.connect(url.toString()).get();
+                if (document.location().contains("/opinie-")) {
+                    result.add(document);
+                    pageNumber++;
+                } else {
+                    pagesAvailable = false;
+                }
+            } catch (IOException ignored) {
+                log.warn("Can not parse page: " + url, ignored);
             }
-        } catch (IOException ignored) {
-            log.warn("Can not parse page: " + url, ignored);
-            System.err.println();
         }
 
-        return Collections.unmodifiableMap(page);
+        return result;
     }
 }
