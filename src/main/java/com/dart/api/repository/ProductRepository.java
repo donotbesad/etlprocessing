@@ -1,6 +1,7 @@
 package com.dart.api.repository;
 
 import com.dart.domain.product.Product;
+import org.springframework.stereotype.Repository;
 
 /**
  * Author: Dmitry Artemenko
@@ -9,6 +10,8 @@ import com.dart.domain.product.Product;
  *
  * @author Dmitry Artemenko
  */
+
+@Repository
 public interface ProductRepository extends BaseRepository<Product> {
 
     Product findByParseEntryProductCode(int productCode);

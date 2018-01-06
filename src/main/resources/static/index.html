@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<div id="app" class="countainer-fluid">
+    <nav class="navbar navbar-expand-lg navbar-default">
+        <a class="navbar-brand" href="#">Turbo parse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Parse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <input v-model="code" type="text" class="form-control" placeholder="Product code..."
+                                   aria-label="Product code...">
+                            <span class="input-group-btn">
+                        <button v-on:click="parse" class="btn btn-primary" type="button">Parse!</button>
+        </span>
+                        </div>
+                        <div class="container-main">
+                            <ul class="list-group">
+                                <li v-for="parse in parses" v-on:click="showReviews(parse.id)"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{parse.productCode}}
+                                    <span
+                                            class="badge badge-primary badge-pill">{{parse.parsedCount}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8" id="reviews">
+                <div v-for="review in reviews" class="row">
+                    <div class="col-3">
+                        <h6>
+                            {{review.author}}
+                        </h6>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{review.comment}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                code: '',
+                parses: [],
+                reviews: []
+            }
+        },
+        methods: {
+            parse: function () {
+                axios.get("parse/code/" + this.code)
+                    .then(response => {
+                        const payload = response.data.payload;
+                        this.parses.unshift(payload);
+                    });
+
+            },
+            showReviews: function (parseId) {
+                axios.get("/reviews?parseEntryId=" + parseId + "&page=0&size=10")
+                    .then(response => {
+                        this.reviews = response.data.payload;
+                    })
+            }
+        },
+        created() {
+            axios.get("/parse?page=0&size=10")
+                .then(response => {
+                    this.parses = response.data.payload;
+                })
+        },
+        filters: {}
+    });
+</script>
+
+
+</body>
+</html>

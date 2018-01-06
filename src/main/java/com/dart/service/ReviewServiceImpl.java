@@ -83,7 +83,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
     @Override
     public void extract(ParseEntry toParse, ParseEntry existing, Document document) throws Exception {
         Elements elements = document.select(ReviewServiceImpl.Names.REVIEW_BOX);
-        facade.getParseEntryService().update(toParse.setStatus(ParseStatus.TRANSFORM));
+        facade.getParseEntryService().save(toParse.setStatus(ParseStatus.TRANSFORM));
         transform(toParse, existing, elements);
     }
 
@@ -105,14 +105,14 @@ public class ReviewServiceImpl extends BaseServiceImpl<ProductReview, ReviewRepo
                 setRecommended(element, review);
                 setLikes(element, review);
                 setStarsCount(element, review);
-                insert(review);
+                save(review);
 
                 parsedElementsCount++;
             }
         }
 
         toParse.setParsedCount(toParse.getParsedCount() + parsedElementsCount);
-        facade.getParseEntryService().update(toParse.setStatus(ParseStatus.LOAD));
+        facade.getParseEntryService().save(toParse.setStatus(ParseStatus.LOAD));
     }
 
     private void setBenefits(Element element, ProductReview review) {

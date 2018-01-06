@@ -46,7 +46,7 @@ public class ProductController implements BaseController {
                                    @RequestParam int page,
                                    @RequestParam int size) {
         Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
-        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, DomainObject.Columns.CREATED_DATE));
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, DomainObject.Fields.CREATED_DATE));
         PageRequest pageRequest = new PageRequest(page, size, sort);
         List<ProductDTO> result = facade.getProductService().findAll(pageRequest).getContent()
                 .stream()

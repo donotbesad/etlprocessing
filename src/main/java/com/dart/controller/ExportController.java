@@ -1,6 +1,7 @@
 package com.dart.controller;
 
 import com.dart.api.service.ServiceFacade;
+import com.dart.domain.product.ProductReview;
 import com.dart.model.ProductReviewDTO;
 import com.dart.utils.ProductAdapter;
 import io.swagger.annotations.Api;
@@ -57,7 +58,7 @@ public class ExportController {
     public void exportReviewsByProductCode(@RequestParam int productCode, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
-            Sort sort = new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE);
+            Sort sort = new Sort(Sort.Direction.DESC, ProductReview.Fields.PUBLISHED_DATE);
             List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByProductCode(productCode, sort)
                     .stream()
                     .map(ProductAdapter::convert)
@@ -73,7 +74,7 @@ public class ExportController {
     public void exportReviewsParseEntry(@RequestParam String parseEntryId, HttpServletResponse response) {
         try {
             prepareCsvResponse(response, Names.REVIEWS_CSV);
-            Sort sort = new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE);
+            Sort sort = new Sort(Sort.Direction.DESC, ProductReview.Fields.PUBLISHED_DATE);
             List<ProductReviewDTO> reviews = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId), sort)
                     .stream()
                     .map(ProductAdapter::convert)

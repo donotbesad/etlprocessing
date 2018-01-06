@@ -11,6 +11,8 @@ import com.dart.domain.ParseEntry;
  */
 public interface ParseEntryService extends BaseService<ParseEntry> {
 
+    ParseEntry getByProductCode(int productCode);
+
     ParseEntry parse(int productCode);
 
 }

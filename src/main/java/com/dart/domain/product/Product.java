@@ -43,7 +43,6 @@ public class Product extends DomainObject {
     @Column(name = Columns.MODEL)
     private String model;
 
-
     public String getTitle() {
         String title = brand + " " + model;
         return title.toUpperCase();

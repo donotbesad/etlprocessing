@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="app" class="countainer-fluid">
+    <nav class="navbar navbar-expand-lg navbar-default">
+        <a class="navbar-brand" href="#">Turbo parse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Parse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Code</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr v-on:click="showReviews(product.code)" v-for="product in products" class="table-active">
+                        <td>{{product.type}}</td>
+                        <td>{{product.brand}}</td>
+                        <td>{{product.model}}</td>
+                        <td>{{product.code}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="row" >
+            <div v-for="review in reviews" class="row">
+                <div class="col-3">
+                    <h6>
+                        {{review.author}}
+                    </h6>
+                </div>
+                <div class="col-9">
+                    <p>
+                        {{review.comment}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            products: [],
+            reviews: []
+        },
+        methods: {
+            showReviews: function (code) {
+                axios.get("/reviews?productCode=" + code + "&page=0&size=10")
+                    .then(response => {
+                        this.reviews = response.data.payload;
+                    })
+            }
+        },
+        created() {
+            axios.get("/products?page=0&size=10")
+                .then(response => {
+                    this.products = response.data.payload;
+                });
+        }
+    });
+</script>
+
+</body>
+</html>

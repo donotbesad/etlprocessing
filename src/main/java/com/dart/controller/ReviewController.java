@@ -1,6 +1,7 @@
 package com.dart.controller;
 
 import com.dart.api.service.ServiceFacade;
+import com.dart.domain.product.ProductReview;
 import com.dart.model.ApiResponse;
 import com.dart.model.ProductReviewDTO;
 import com.dart.utils.ProductAdapter;
@@ -54,7 +55,7 @@ public class ReviewController implements BaseController {
                                                       @RequestParam int size,
                                                       @RequestParam int productCode) {
         Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
-        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE));
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReview.Fields.PUBLISHED_DATE));
         PageRequest pageRequest = new PageRequest(page, size, sort);
         List<ProductReviewDTO> result = facade.getReviewService().findReviewsByProductCode(productCode, pageRequest).getContent()
                 .stream()
@@ -71,7 +72,7 @@ public class ReviewController implements BaseController {
                                                      @RequestParam int size,
                                                      @RequestParam String parseEntryId) {
         Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
-        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReviewDTO.Fields.PUBLISHED_DATE));
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, ProductReview.Fields.PUBLISHED_DATE));
         PageRequest pageRequest = new PageRequest(page, size, sort);
         List<ProductReviewDTO> result = facade.getReviewService().findReviewsByParseEntry(UUID.fromString(parseEntryId), pageRequest).getContent()
                 .stream()

@@ -36,6 +36,7 @@ public class ParseController implements BaseController {
     interface Endpoints {
         String SELF = "/parse";
         String PARSE_PRODUCT = "/code/{productCode}";
+        String PRODUCT_CODE = "productCode";
     }
 
     @Autowired
@@ -48,7 +49,7 @@ public class ParseController implements BaseController {
                                         @PathParam(value = PAGE) int page,
                                         @PathParam(value = SIZE) int size) {
         Optional<Sort> optionalSort = RestControllerUtil.checkSort(direction, property);
-        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, DomainObject.Columns.CREATED_DATE));
+        Sort sort = optionalSort.orElse(new Sort(Sort.Direction.DESC, DomainObject.Fields.CREATED_DATE));
         PageRequest pageRequest = new PageRequest(page, size, sort);
         List<ParseEntryDTO> result = facade.getParseEntryService().findAll(pageRequest).getContent()
                 .stream()
@@ -61,6 +62,12 @@ public class ParseController implements BaseController {
     @ApiOperation(value = ApiDocumentation.PARSE_API_ID_OPERATION, response = ParseEntryDTO.class)
     public ApiResponse getParsedEntryById(@PathVariable String uuid) {
         ParseEntryDTO result = ParseEntryAdapter.convert(facade.getParseEntryService().findOne(UUID.fromString(uuid)));
+        return new ApiResponse(result);
+    }
+
+    @GetMapping(params = {Endpoints.PRODUCT_CODE})
+    public ApiResponse getParsedEntryByProductCode(@RequestParam int productCode) {
+        ParseEntryDTO result = ParseEntryAdapter.convert(facade.getParseEntryService().getByProductCode(productCode));
         return new ApiResponse(result);
     }
 

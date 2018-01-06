@@ -4,6 +4,7 @@ import com.dart.domain.product.ProductReview;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,8 @@ import java.util.UUID;
  *
  * @author Dmitry Artemenko
  */
+
+@Repository
 public interface ReviewRepository extends BaseRepository<ProductReview> {
 
     List<ProductReview> findByParseEntryProductCode(int productCode, Sort sort);

@@ -39,6 +39,20 @@ public class ProductReview extends DomainObject {
         String PUBLISHED_DATE = "published_date";
     }
 
+    public interface Fields {
+        String PARSE_ENTRY_ID = "parseEntryId";
+        String PRODUCT_CODE = "productCode";
+        String COMMENT = "comment";
+        String AUTHOR = "author";
+        String DEFECTS = "defects";
+        String BENEFITS = "benefits";
+        String PUBLISHED_DATE = "publishedDate";
+        String STARS_COUNT = "starsCount";
+        String LIKES_COUNT = "likesCount";
+        String DISLIKES_COUNT = "dislikesCount";
+        String RECOMMENDED = "recommended";
+    }
+
     @ManyToOne
     @JoinColumn(name = Columns.PARSED_ENTRY_ID, nullable = false)
     private ParseEntry parseEntry;

@@ -6,11 +6,8 @@ import com.dart.domain.DomainObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,11 +25,6 @@ abstract class BaseServiceImpl<T extends DomainObject, E extends BaseRepository<
     private E repository;
 
     @Override
-    public Iterable<T> findAll(Sort sort) {
-        return repository.findAll(sort);
-    }
-
-    @Override
     public Page<T> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
@@ -43,36 +35,8 @@ abstract class BaseServiceImpl<T extends DomainObject, E extends BaseRepository<
     }
 
     @Override
-    public T insert(T entity) {
-        entity.setCreatedDate(LocalDateTime.now());
-        entity.setUpdatedDate(LocalDateTime.now());
+    public T save(T entity) {
         return repository.save(entity);
-    }
-
-    @Override
-    public T update(T entity) {
-        entity.setUpdatedDate(LocalDateTime.now());
-        return repository.save(entity);
-    }
-
-    @Override
-    public long count() {
-        return repository.count();
-    }
-
-    @Override
-    public void delete(UUID uuid) {
-        repository.delete(uuid);
-    }
-
-    @Override
-    public void delete(T entity) {
-        repository.delete(entity);
-    }
-
-    @Override
-    public void delete(List<T> entities) {
-        repository.delete(entities);
     }
 
     @Override
@@ -80,7 +44,7 @@ abstract class BaseServiceImpl<T extends DomainObject, E extends BaseRepository<
         repository.deleteAll();
     }
 
-    public E getRepository() {
+    E getRepository() {
         return repository;
     }
 }

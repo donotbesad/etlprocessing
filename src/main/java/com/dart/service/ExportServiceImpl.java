@@ -1,6 +1,7 @@
 package com.dart.service;
 
 import com.dart.api.service.ExportService;
+import com.dart.domain.product.ProductReview;
 import com.dart.model.ProductReviewDTO;
 import com.opencsv.CSVWriter;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,16 @@ import java.util.List;
 public class ExportServiceImpl implements ExportService {
 
     private static final String[] headers = new String[]{
-            ProductReviewDTO.Fields.PRODUCT_CODE,
-            ProductReviewDTO.Fields.AUTHOR,
-            ProductReviewDTO.Fields.COMMENT,
-            ProductReviewDTO.Fields.BENEFITS,
-            ProductReviewDTO.Fields.DEFECTS,
-            ProductReviewDTO.Fields.PUBLISHED_DATE,
-            ProductReviewDTO.Fields.STARS_COUNT,
-            ProductReviewDTO.Fields.LIKES_COUNT,
-            ProductReviewDTO.Fields.DISLIKES_COUNT,
-            ProductReviewDTO.Fields.RECOMMENDED
+            ProductReview.Fields.PRODUCT_CODE,
+            ProductReview.Fields.AUTHOR,
+            ProductReview.Fields.COMMENT,
+            ProductReview.Fields.BENEFITS,
+            ProductReview.Fields.DEFECTS,
+            ProductReview.Fields.PUBLISHED_DATE,
+            ProductReview.Fields.STARS_COUNT,
+            ProductReview.Fields.LIKES_COUNT,
+            ProductReview.Fields.DISLIKES_COUNT,
+            ProductReview.Fields.RECOMMENDED
     };
 
     @Override

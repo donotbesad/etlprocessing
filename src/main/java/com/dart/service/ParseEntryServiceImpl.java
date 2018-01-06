@@ -24,27 +24,28 @@ import java.util.List;
 public class ParseEntryServiceImpl extends BaseServiceImpl<ParseEntry, ParseEntryRepository> implements ParseEntryService {
 
     @Autowired
-    private ParseEntryRepository parseEntryRepository;
-
-    @Autowired
     private ServiceFacade facade;
 
+    @Override
+    public ParseEntry getByProductCode(int productCode) {
+        return getRepository().findFirstByProductCodeOrderByCreatedDateDesc(productCode);
+    }
 
     @Override
     public ParseEntry parse(int productCode) {
-        ParseEntry existing = parseEntryRepository.findFirstByProductCodeOrderByCreatedDateDesc(productCode);
+        ParseEntry existing = getRepository().findFirstByProductCodeOrderByCreatedDateDesc(productCode);
         ParseEntry toParse = new ParseEntry();
         toParse.setProductCode(productCode);
         toParse.setStatus(ParseStatus.PARSING);
-        insert(toParse);
+        save(toParse);
 
         Document mainPage = ProductParseUtil.retrieveProductPage(productCode);
         if (mainPage == null) {
             toParse.setStatus(ParseStatus.NOT_FOUND);
-            return insert(toParse);
+            return save(toParse);
         }
 
-        update(toParse.setStatus(ParseStatus.EXTRACT));
+        getRepository().save(toParse.setStatus(ParseStatus.EXTRACT));
 
         List<Document> reviewPages = ProductParseUtil.retrieveProductReviewPages(productCode);
         reviewPages.add(mainPage);
@@ -59,6 +60,6 @@ public class ParseEntryServiceImpl extends BaseServiceImpl<ParseEntry, ParseEntr
             toParse.setStatus(ParseStatus.FAILED);
         }
 
-        return insert(toParse);
+        return save(toParse);
     }
 }

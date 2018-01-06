@@ -53,7 +53,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductReposito
         setBrand(product, elements);
         setModel(product, elements);
         setType(product, elements);
-        insert(product);
+        save(product);
     }
 
 
