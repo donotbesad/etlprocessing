@@ -26,5 +26,4 @@ public class MainController {
 
     @GetMapping(Fields.PRODUCTS_PATH)
     public String productsView() { return Fields.PRODUCTS_VIEW_NAME; }
-
 }

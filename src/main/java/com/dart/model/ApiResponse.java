@@ -36,7 +36,7 @@ public class ApiResponse {
         }
     }
 
-    private enum Status {
+    public enum Status {
         @JsonProperty("success")
         SUCCESS("success"),
         @JsonProperty("fail")

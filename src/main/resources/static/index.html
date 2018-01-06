@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+    <script defer src="https://momentjs.com/downloads/moment.js"></script>
 </head>
 <body>
 
@@ -29,6 +31,7 @@
                     <a class="nav-link" href="/products">Products</a>
                 </li>
             </ul>
+            <button v-on:click="truncate" type="button" class="nav-link btn btn-danger">Delete all data</button>
         </div>
     </nav>
     <div class="container container-main">
@@ -43,11 +46,16 @@
                         <button v-on:click="parse" class="btn btn-primary" type="button">Parse!</button>
         </span>
                         </div>
-                        <div class="container-main">
+                        <div id="parses-container" class="container-main">
                             <ul class="list-group">
                                 <li v-for="parse in parses" v-on:click="showReviews(parse.id)"
                                     class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{parse.productCode}}
+
+                                    <span>
+                                        <a v-bind:href="'/export/reviews?parseEntryId=' + parse.id"> <i
+                                                class="fas fa-download"></i></a>
+                                        {{parse.productCode}}
+                                    </span>
                                     <span
                                             class="badge badge-primary badge-pill">{{parse.parsedCount}}</span>
                                 </li>
@@ -57,16 +65,42 @@
                 </div>
             </div>
             <div class="col-8" id="reviews">
-                <div v-for="review in reviews" class="row">
-                    <div class="col-3">
-                        <h6>
-                            {{review.author}}
-                        </h6>
+                <div v-for="review in reviews" v-bind:class="review.recommended | recommended">
+                    <div class="row card-header">
+                        <a v-bind:href="'/export/reviews/' + review.id">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <span class="author">Author: <b>{{review.author}}</b></span>
                     </div>
-                    <div class="col-9">
-                        <p>
-                            {{review.comment}}
-                        </p>
+                    <div class="row card-body">
+                        <div class="row">
+                            <i class="fas fa-star"> </i>
+                            <span class="stars-count"> {{review.starsCount}}</span>
+                        </div>
+                        <div class="row">
+                            <span class="text-success">Benefits:</span> {{review.benefits | array}}
+                        </div>
+                        <div class="row">
+                            <span class="text-danger">Defects:</span> {{review.defects | array}}
+                        </div>
+                        <br/>
+                        <div class="row comment-body">
+                            <p>
+                                {{review.comment}}
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="date">
+                                {{review.publishedDate | date}}
+                            </div>
+                            <div class="left-element">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span class="likes-count">{{review.likesCount}}</span>
+                                <i class="fas fa-thumbs-down likes-count"></i>
+                                <span class="likes-count">{{review.dislikesCount}}</span>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,43 +108,8 @@
     </div>
 </div>
 
-<script>
-
-    const vm = new Vue({
-        el: '#app',
-        data() {
-            return {
-                code: '',
-                parses: [],
-                reviews: []
-            }
-        },
-        methods: {
-            parse: function () {
-                axios.get("parse/code/" + this.code)
-                    .then(response => {
-                        const payload = response.data.payload;
-                        this.parses.unshift(payload);
-                    });
-
-            },
-            showReviews: function (parseId) {
-                axios.get("/reviews?parseEntryId=" + parseId + "&page=0&size=10")
-                    .then(response => {
-                        this.reviews = response.data.payload;
-                    })
-            }
-        },
-        created() {
-            axios.get("/parse?page=0&size=10")
-                .then(response => {
-                    this.parses = response.data.payload;
-                })
-        },
-        filters: {}
-    });
-</script>
-
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 
 </body>
 </html>
