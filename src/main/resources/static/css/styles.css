@@ -10,10 +10,17 @@
     margin-top: 5%
 }
 
-#reviews, #parses-container, #products-table {
+#reviews, #parses-container{
     max-height: 600px;
     overflow: auto;
     text-align: left;
+}
+
+#products-table {
+    max-height: 400px;
+    overflow: auto;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 .row {

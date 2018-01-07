@@ -1,11 +1,9 @@
 const vm = new Vue({
     el: '#app',
-    data() {
-        return {
-            code: '',
-            parses: [],
-            reviews: []
-        }
+    data: {
+        code: '',
+        parses: [],
+        reviews: []
     },
     methods: {
         parse: function () {
@@ -23,10 +21,10 @@ const vm = new Vue({
                 })
         },
         truncate: function () {
-          axios.delete("/truncate")
-              .then(response => {
-                location.reload();
-              })
+            axios.delete("/truncate")
+                .then(response => {
+                    location.reload();
+                })
         }
     },
     created() {
