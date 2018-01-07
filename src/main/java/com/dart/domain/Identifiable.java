@@ -9,6 +9,8 @@ import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 /**
+ * Superclass for all domain objects
+ *
  * Author: Dmitry Artemenko
  * Date: 20.10.17
  * Time: 14:08

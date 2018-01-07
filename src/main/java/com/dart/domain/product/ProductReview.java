@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * Representation of Product Review domain object
+ *
  * Author: Dmitry Artemenko
  * Date: 23.10.17
  * Time: 14:08

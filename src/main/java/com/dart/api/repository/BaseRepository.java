@@ -7,6 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.UUID;
 
 /**
+ * Base repository for all repositories in application
+ *
  * Author: Dmitry Artemenko
  * Date: 20.10.17
  * Time: 14:07

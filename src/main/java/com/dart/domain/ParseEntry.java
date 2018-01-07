@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 /**
+ * Representation of Parse Entry domain object
+ *
  * Author: Dmitry Artemenko
  * Date: 20.10.17
  * Time: 14:08

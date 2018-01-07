@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 /**
+ * Representation of Product domain object
+ *
  * Author: Dmitry Artemenko
  * Date: 29.10.17
  * Time: 10:09

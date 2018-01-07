@@ -11,6 +11,8 @@ import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 /**
+ * Superclass for all domain objects
+ *
  * Author: Dmitry Artemenko
  * Date: 23.10.17
  * Time: 14:08
