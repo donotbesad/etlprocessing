@@ -2,7 +2,7 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Turbo parse</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
           integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
@@ -21,11 +21,17 @@
             <div class="col-4">
                 <div class="row">
                     <div class="col">
-                        <div class="input-group">
+                        <div v-if="showProgress">
+                            {{processStepText}}
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;" class="input-group">
                             <input v-model="code" type="text" class="form-control" placeholder="Product code..."
                                    aria-label="Product code...">
                             <span class="input-group-btn">
-                        <button v-on:click="parse" class="btn btn-primary" type="button">Parse!</button>
+                        <button v-on:click="preParse" class="btn btn-primary" type="button">Parse!</button>
         </span>
                         </div>
                         <div id="parses-container" class="container-main">

@@ -2,17 +2,33 @@ const vm = new Vue({
     el: '#app',
     data: {
         code: '',
+        processStepText: '',
         parses: [],
-        reviews: []
+        reviews: [],
+        showProgress: false
     },
     methods: {
+        preParse: function () {
+            let that = this;
+            setTimeout(function () {
+                that.processStepText = "Transforming Data..";
+            }, 500);
+            this.showProgress = true;
+            this.processStepText = "Extracting Data..";
+            setTimeout(function () {
+                that.processStepText = "Loading Data..";
+            }, 1000);
+            setTimeout(function () {
+                that.parse()
+            }, 1500);
+        },
         parse: function () {
             axios.get("parse/code/" + this.code)
                 .then(response => {
                     const payload = response.data.payload;
                     this.parses.unshift(payload);
+                    this.showProgress = false;
                 });
-
         },
         showReviews: function (parseId) {
             axios.get("/reviews?parseEntryId=" + parseId + "&page=0&size=100")
